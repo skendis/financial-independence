@@ -35,4 +35,4 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm i
-          nx build:client --prod
+          node_modules\.bin\nx build:client --prod
