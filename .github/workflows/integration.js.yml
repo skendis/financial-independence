@@ -35,4 +35,4 @@ jobs:
       - name: npm install and npm run build
         run: |
           npm i
-          node_modules\.bin\nx build:client --prod
+          /home/runner/work/financial-independence/financial-independence/node_modules/.bin/nx build:client --prod
