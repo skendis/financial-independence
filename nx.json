@@ -25,6 +25,16 @@
     "client-e2e": {
       "tags": [],
       "implicitDependencies": ["client"]
+    },
+    "fnbc": {
+      "tags": []
+    },
+    "fnbc-e2e": {
+      "tags": [],
+      "implicitDependencies": ["fnbc"]
+    },
+    "fnbc-server": {
+      "tags": []
     }
   }
 }

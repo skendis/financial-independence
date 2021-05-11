@@ -142,6 +142,167 @@
           }
         }
       }
+    },
+    "fnbc": {
+      "projectType": "application",
+      "root": "apps/fnbc",
+      "sourceRoot": "apps/fnbc/src",
+      "prefix": "financial-independence",
+      "architect": {
+        "build": {
+          "builder": "@angular-devkit/build-angular:browser",
+          "options": {
+            "outputPath": "dist/apps/fnbc",
+            "index": "apps/fnbc/src/index.html",
+            "main": "apps/fnbc/src/main.ts",
+            "polyfills": "apps/fnbc/src/polyfills.ts",
+            "tsConfig": "apps/fnbc/tsconfig.app.json",
+            "aot": true,
+            "assets": ["apps/fnbc/src/favicon.ico", "apps/fnbc/src/assets"],
+            "styles": ["apps/fnbc/src/styles.scss"],
+            "scripts": []
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "apps/fnbc/src/environments/environment.ts",
+                  "with": "apps/fnbc/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb",
+                  "maximumError": "10kb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@angular-devkit/build-angular:dev-server",
+          "options": {
+            "browserTarget": "fnbc:build"
+          },
+          "configurations": {
+            "production": {
+              "browserTarget": "fnbc:build:production"
+            }
+          }
+        },
+        "extract-i18n": {
+          "builder": "@angular-devkit/build-angular:extract-i18n",
+          "options": {
+            "browserTarget": "fnbc:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/fnbc/src/**/*.ts",
+              "apps/fnbc/src/**/*.html"
+            ]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/fnbc"],
+          "options": {
+            "jestConfig": "apps/fnbc/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "fnbc-e2e": {
+      "root": "apps/fnbc-e2e",
+      "sourceRoot": "apps/fnbc-e2e/src",
+      "projectType": "application",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "apps/fnbc-e2e/cypress.json",
+            "tsConfig": "apps/fnbc-e2e/tsconfig.e2e.json",
+            "devServerTarget": "fnbc:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "fnbc:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/fnbc-e2e/**/*.{js,ts}"]
+          }
+        }
+      }
+    },
+    "fnbc-server": {
+      "root": "apps/fnbc-server",
+      "sourceRoot": "apps\\fnbc-server\\src",
+      "projectType": "application",
+      "architect": {
+        "build": {
+          "builder": "@nrwl/node:build",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/apps/fnbc-server",
+            "main": "apps/fnbc-server/src/main.ts",
+            "tsConfig": "apps/fnbc-server/tsconfig.app.json",
+            "assets": ["apps/fnbc-server/src/assets"]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/fnbc-server/src/environments/environment.ts",
+                  "with": "apps/fnbc-server/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "builder": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "fnbc-server:build"
+          }
+        },
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["apps/fnbc-server/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "outputs": ["coverage/apps/fnbc-server"],
+          "options": {
+            "jestConfig": "apps/fnbc-server/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
