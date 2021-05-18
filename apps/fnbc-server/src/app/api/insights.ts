@@ -1,37 +1,32 @@
 import {Router} from 'express';
-
+import { Transaction } from './models/transaction';
+import { responseBody } from './models/response-body';
+import { Insight } from './models/insight';
 const router = Router();
 
 router.get(`/`, (req, res) => {
-  const data = {
-    "metadata": {},
-    "data": {
-      "_id": "1i",
-      "description": "כל הכבוד הגדרת את היעד הראשון שלך. עכשיו נישאר לך לחבר את הפעולות",
-      "path": "/open-api",
-      "createdAt": (new Date()).toISOString(),
-      "visitedAt": null
+  Insight.findOne({},(err, doc) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json(Object.assign({}, responseBody, {data: doc}));
     }
-  };
-
-  res.json(data);
+  });
 });
 
 router.patch(`/:id`, (req, res) => {
-  const data = {
-    "metadata": {},
-    "data": {
-      "_id": req.params.id,
-        "description": "כל הכבוד הגדרת את היעד הראשון שלך. עכשיו נישאר לך לחבר את הפעולות",
-        "path": "/open-api",
-        "createdAt": "2021-05-12T06:03:50.234Z",
-        "visitedAt": (new Date()).toISOString()
+  const update = {date: (new Date()).toISOString()};
+  Transaction.findByIdAndUpdate( req.params.id, update, (err, doc) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(202).json(
+        Object.assign({}, responseBody,
+          // returns old one :\
+          {data: Object.assign(doc, update)}
+        ));
     }
-  };
-  res.status(202).send();
+  });
 });
-
-
-
 
 export default router;

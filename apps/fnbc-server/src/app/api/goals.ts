@@ -1,5 +1,8 @@
 import {Router} from 'express';
 
+import {Goal} from './models/goal';
+import { responseBody } from './models/response-body';
+
 const router = Router();
 
 router.get(`/types`, (req, res) => {
@@ -24,151 +27,58 @@ router.get(`/types`, (req, res) => {
 });
 
 router.get(`/:id`, (req, res) => {
-  const data = {
-    "metadata": {},
-    "data": {
-      "_id": req.params.id,
-      "type": {
-        "_id": "1a",
-        "description": "עצמאות כלכלית"
-      },
-      "description": "עצמאות כלכלית",
-      "amount": 3000000,
-      "savingAmount": 1500,
-      "outcomeAmount": 10000,
-      "status": {
-        "_id": "1c",
-        "description": "עומד ביעד"
-      },
-      "createdAt": "2021-05-12T06:03:50.234Z",
-      "updatedAt": "2021-05-12T06:04:50.234Z"
+  Goal.findById(req.params.id, (err, goal) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json(Object.assign({}, responseBody, {data: goal}));
     }
-  };
-
-  res.json(data);
+  });
 });
 
 router.patch(`/:id`, (req, res) => {
-  const data = {
-    "metadata": {},
-    "data": {
-      "_id": req.params.id,
-      "type": {
-        "_id": "1a",
-        "description": "עצמאות כלכלית"
-      },
-      "description": "עצמאות כלכלית",
-      "amount": 3000000,
-      "savingAmount": 1500,
-      "outcomeAmount": 10000,
-      "status": {
-        "_id": "1c",
-        "description": "עומד ביעד"
-      },
-      "createdAt": "2021-05-12T06:03:50.234Z",
-      "updatedAt": (new Date()).toISOString()
+  Goal.findByIdAndUpdate( req.params.id, req.body, (err, doc) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(202).json(
+        Object.assign({}, responseBody,
+          // returns old one :\
+          {data: Object.assign(doc, req.body)}
+        ));
     }
-  };
-
-  Object.assign(data.data, req.body);
-
-  res.status(202).json(data);
+  });
 });
 
 router.delete(`/:id`, (req, res) => {
-  res.status(204).send();
+  Goal.findByIdAndDelete(req.params.id, {}, (err, doc) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(204).send();
+    }
+  });
 });
 
 router.get(`/`, (req, res) => {
-  const data = {
-    "metadata": {
-      "links": {
-        "prev": null,
-        "self": "/goals?_limit=5&_offset=0",
-        "next": null
-      }
-    },
-    "data": [{
-      "_id": "1b",
-      "type": {
-        "_id": "1a",
-        "description": "עצמאות כלכלית"
-      },
-      "description": "עצמאות כלכלית",
-      "amount": 3000000,
-      "savingAmount": 1500,
-      "outcomeAmount": 10000,
-      "status": {
-        "_id": "3c",
-        "description": "צריך להשתפר"
-      },
-      "createdAt": "2021-05-12T06:03:50.234Z",
-      "updatedAt": "2021-05-12T06:04:50.234Z"
-    },
-      {
-        "_id": "2b",
-        "type": {
-          "_id": "2a",
-          "description": "דירה"
-        },
-        "description": "דירה בתא",
-        "amount": 1500000,
-        "savingAmount": 500,
-        "status": {
-          "_id": "1c",
-          "description": "עומד ביעד"
-        },
-        "createdAt": "2021-04-12T06:03:50.234Z",
-        "updatedAt": "2021-05-12T06:04:50.234Z"
-      },
-      {
-        "_id": "3b",
-        "type": {
-          "_id": "3a",
-          "description": "אחר"
-        },
-        "description": "מתנה לחתונה של יואבי",
-        "amount": 2000,
-        "savingAmount": 20,
-        "status": {
-          "_id": "2c",
-          "description": "לא עומד ביעד"
-        },
-        "createdAt": "2021-04-10T06:03:50.234Z",
-        "updatedAt": "2021-05-12T06:04:50.234Z"
-      }
-    ]
-  };
-
-  res.json(data);
+  Goal.find({},(err, docs) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(200).json(Object.assign({}, responseBody, {data: docs}));
+    }
+  });
 });
 
 router.post(`/`, (req, res) => {
-  const date = (new Date()).toISOString();
-  const data = {
-    "metadata": {},
-    "data": {
-      "_id": Math.floor(Math.random() * 1000) + 'b',
-      "type": {
-        "_id": '1a',
-        "description": "עצמאות כלכלית"
-      },
-      "description": "עצמאות כלכלית",
-      "amount": 3000000,
-      "savingAmount": 1500,
-      "outcomeAmount": 10000,
-      "status": {
-        "_id": "1c",
-        "description": "עומד ביעד"
-      },
-      "createdAt": date,
-      "updatedAt": date
+  const goal = new Goal(req.body);
+  goal.save((err) => {
+    if (err) {
+      res.status(500).json(err);
+    } else {
+      res.status(201).json(Object.assign({}, responseBody, {data: goal}));
     }
-  };
-
-  Object.assign(data.data, req.body);
-
-  res.status(201).json(data);
+  });
 });
 
 export default router;
