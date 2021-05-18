@@ -2,12 +2,13 @@
  * This is not a production server yet!
  * This is only a minimal backend to get started.
  */
-
+import { environment } from './environments/environment';
 import * as express from 'express';
 import * as path from 'path';
 import { Schema, model, connect } from 'mongoose';
 
 import * as api from './app/api';
+
 
 const staticPath = `${__dirname}/../fnbc`;
 const app = express();
@@ -20,11 +21,7 @@ app.get('/*', function(req, res) {
   res.sendFile(path.join(`${staticPath}/index.html`));
 });
 
-const port = process.env.port || 8080;
-const server = app.listen(port, () => {
-  console.log(`Listening at http://localhost:${port}`);
-});
-server.on('error', console.error);
+
 
 // DB
 
@@ -49,18 +46,15 @@ run().catch(err => console.log(err));
 
 async function run(): Promise<void> {
   // 4. Connect to MongoDB
-  await connect('mongodb://localhost:27017/fnbc', {
+  await connect(environment.mongodb, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useFindAndModify: false
   });
 
-  // const doc = new UserModel({
-  //   name: 'Bill',
-  //   email: 'bill@initech.com',
-  //   avatar: 'https://i.imgur.com/dM7Thhn.png'
-  // });
-  // await doc.save();
-  //
-  // console.log(doc.email); // 'bill@initech.com'
+  const port = process.env.port || 8080;
+  const server = app.listen(port, () => {
+    console.log(`Listening at http://localhost:${port}`);
+  });
+  server.on('error', console.error);
 }
