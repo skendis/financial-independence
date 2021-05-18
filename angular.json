@@ -265,7 +265,9 @@
           "options": {
             "outputPath": "dist/apps/fnbc-server",
             "main": "apps/fnbc-server/src/main.ts",
-            "tsConfig": "apps/fnbc-server/tsconfig.app.json"
+            "tsConfig": "apps/fnbc-server/tsconfig.app.json",
+            "exteranlDependencies":"none",
+            "generatePackageJson":"true"
           },
           "configurations": {
             "production": {
