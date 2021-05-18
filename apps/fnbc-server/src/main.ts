@@ -5,11 +5,14 @@
 
 import * as express from 'express';
 import * as path from 'path';
+import * as api from './app/api';
 
 const staticPath = `${__dirname}/../fnbc`;
 const app = express();
 
 app.use(express.static(staticPath));
+
+app.use('/api/v1', api.default);
 
 app.get('/*', function(req, res) {
 
