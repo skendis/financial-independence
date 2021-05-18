@@ -267,7 +267,7 @@
             "main": "apps/fnbc-server/src/main.ts",
             "tsConfig": "apps/fnbc-server/tsconfig.app.json",
             "exteranlDependencies":"none",
-            "generatePackageJson":"true"
+            "generatePackageJson": true
           },
           "configurations": {
             "production": {
