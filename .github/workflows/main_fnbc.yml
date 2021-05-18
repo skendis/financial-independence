@@ -23,6 +23,7 @@ jobs:
 
     - name: npm install, build, and test
       run: |
+        npm config set CYPRESS_INSTALL_BINARY=0
         npm install
         /home/runner/work/financial-independence/financial-independence/node_modules/.bin/nx build fnbc --prod
         /home/runner/work/financial-independence/financial-independence/node_modules/.bin/nx build fnbc-server --prod
