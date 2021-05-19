@@ -1,7 +1,3 @@
 module.exports = {
-  projects: [
-    '<rootDir>/apps/client',
-    '<rootDir>/apps/fnbc',
-    '<rootDir>/apps/fnbc-server',
-  ],
+  projects: [, '<rootDir>/apps/fnbc', '<rootDir>/apps/fnbc-server'],
 };
