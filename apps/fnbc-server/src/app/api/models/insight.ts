@@ -18,7 +18,7 @@ const schema = new Schema<Insight>({
 });
 
 // 3. Create a Model.
-const InsightModel = model<Insight>('Insight', schema);
+const InsightModel = model<Insight>('Insights', schema);
 
 export const Insight = InsightModel;
 

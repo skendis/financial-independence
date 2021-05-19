@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import * as mongoose from "mongoose";
 
 // 71. Create an interface representing a document in MongoDB.
 interface Ref {
@@ -7,6 +8,9 @@ interface Ref {
 }
 
 interface Transaction {
+  owner: {
+    _id: mongoose.Types.ObjectId;
+  }
   type: Ref;
   goal: Ref;
   description : string;
@@ -29,6 +33,9 @@ interface Transaction {
 
 // 2. Create a Schema corresponding to the document interface.
 const schema = new Schema<Transaction>({
+  owner: {
+    _id: { type: mongoose.Types.ObjectId, required: true }
+  },
   type: {
     _id: { type: String, required: true }
   },
@@ -42,7 +49,7 @@ const schema = new Schema<Transaction>({
 });
 
 // 3. Create a Model.
-const TransactionModel = model<Transaction>('Transaction', schema);
+const TransactionModel = model<Transaction>('Transactions', schema);
 
 
 export const Transaction = TransactionModel;

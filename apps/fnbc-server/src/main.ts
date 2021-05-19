@@ -5,10 +5,9 @@
 import { environment } from './environments/environment';
 import * as express from 'express';
 import * as path from 'path';
-import { Schema, model, connect } from 'mongoose';
+import { connect } from 'mongoose';
 
 import * as api from './app/api';
-
 
 const staticPath = `${__dirname}/../fnbc`;
 const app = express();
@@ -22,26 +21,6 @@ app.get('/*', function(req, res) {
 });
 
 
-
-// DB
-
-// 1. Create an interface representing a document in MongoDB.
-interface User {
-  name: string;
-  email: string;
-  avatar?: string;
-}
-
-// 2. Create a Schema corresponding to the document interface.
-const schema = new Schema<User>({
-  name: { type: String, required: true },
-  email: { type: String, required: true },
-  avatar: String
-});
-
-// 3. Create a Model.
-const UserModel = model<User>('User', schema);
-
 run().catch(err => console.log(err));
 
 async function run(): Promise<void> {
@@ -52,6 +31,7 @@ async function run(): Promise<void> {
     useFindAndModify: false
   });
 
+  // Run express app
   const port = process.env.port || 8080;
   const server = app.listen(port, () => {
     console.log(`Listening at http://localhost:${port}`);

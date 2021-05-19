@@ -1,4 +1,5 @@
 import {Router} from 'express';
+import * as mongoose from 'mongoose';
 
 import {Goal} from './models/goal';
 import { responseBody } from './models/response-body';
@@ -27,9 +28,12 @@ router.get(`/types`, (req, res) => {
 });
 
 router.get(`/:id`, (req, res) => {
-  Goal.findById(req.params.id, (err, goal) => {
-    if (err) {
-      res.status(500).json(err);
+  Goal.findOne({
+    _id: mongoose.Types.ObjectId(req.params.id),
+    owner: {_id: req['user']['_id']}
+  }, (err, goal) => {
+    if (err || !goal) {
+      res.status(500).json(err || '');
     } else {
       res.status(200).json(Object.assign({}, responseBody, {data: goal}));
     }
@@ -37,7 +41,10 @@ router.get(`/:id`, (req, res) => {
 });
 
 router.patch(`/:id`, (req, res) => {
-  Goal.findByIdAndUpdate( req.params.id, req.body, (err, doc) => {
+  Goal.findOneAndUpdate({
+    _id: mongoose.Types.ObjectId(req.params.id),
+    owner: {_id: req['user']['_id']}
+  }, {$set: req.body}, null, (err, doc) => {
     if (err) {
       res.status(500).json(err);
     } else {
@@ -51,7 +58,10 @@ router.patch(`/:id`, (req, res) => {
 });
 
 router.delete(`/:id`, (req, res) => {
-  Goal.findByIdAndDelete(req.params.id, {}, (err, doc) => {
+  Goal.findOneAndDelete({
+    _id: mongoose.Types.ObjectId(req.params.id),
+    owner: {_id: req['user']['_id']}
+  }, {}, (err, doc) => {
     if (err) {
       res.status(500).json(err);
     } else {
@@ -61,11 +71,13 @@ router.delete(`/:id`, (req, res) => {
 });
 
 router.get(`/`, (req, res) => {
-  Goal.find({},(err, docs) => {
+  Goal.find({
+    owner: {_id:  req['user']['_id']}
+  },(err, docs) => {
     if (err) {
       res.status(500).json(err);
     } else {
-      res.status(200).json(Object.assign({}, responseBody, {data: docs}));
+      res.status(docs.length ? 200 : 204).json(Object.assign({}, responseBody, {data: docs}));
     }
   });
 });

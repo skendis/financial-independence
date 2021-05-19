@@ -2,6 +2,7 @@ import {Router} from 'express';
 import { Transaction } from './models/transaction';
 import { responseBody } from './models/response-body';
 import { Goal } from './models/goal';
+import * as mongoose from "mongoose";
 
 const router = Router();
 
@@ -35,17 +36,23 @@ router.get(`/types`, (req, res) => {
 });
 
 router.get(`/:id`, (req, res) => {
-  Transaction.findById(req.params.id, (err, goal) => {
-    if (err) {
-      res.status(500).json(err);
+  Transaction.findOne({
+    _id: mongoose.Types.ObjectId(req.params.id),
+    owner: {_id: req['user']['_id']}
+  }, (err, doc) => {
+    if (err || !doc) {
+      res.status(500).json(err || '');
     } else {
-      res.status(200).json(Object.assign({}, responseBody, {data: goal}));
+      res.status(200).json(Object.assign({}, responseBody, {data: doc}));
     }
   });
 });
 
 router.patch(`/:id`, (req, res) => {
-  Transaction.findByIdAndUpdate( req.params.id, req.body, (err, doc) => {
+  Transaction.findOneAndUpdate({
+    _id: mongoose.Types.ObjectId(req.params.id),
+    owner: {_id: req['user']['_id']}
+  }, {$set : req.body}, null, (err, doc) => {
     if (err) {
       res.status(500).json(err);
     } else {
@@ -59,7 +66,10 @@ router.patch(`/:id`, (req, res) => {
 });
 
 router.delete(`/:id`, (req, res) => {
-  Transaction.findByIdAndDelete(req.params.id, {}, (err, doc) => {
+  Transaction.findOneAndDelete({
+    _id: mongoose.Types.ObjectId(req.params.id),
+    owner: {_id: req['user']['_id']}
+  }, {}, (err, doc) => {
     if (err) {
       res.status(500).json(err);
     } else {
@@ -69,11 +79,19 @@ router.delete(`/:id`, (req, res) => {
 });
 
 router.get(`/`, (req, res) => {
-  Transaction.find({},(err, docs) => {
+  const filer = {
+    owner: {_id:  req['user']['_id']}
+  };
+
+  if (req['query'] && req['query'].goal) {
+    filer['goal'] = {_id : req['query'].goal};
+  }
+
+  Transaction.find(filer,(err, docs) => {
     if (err) {
       res.status(500).json(err);
     } else {
-      res.status(200).json(Object.assign({}, responseBody, {data: docs}));
+      res.status(docs.length ? 200 : 204).json(Object.assign({}, responseBody, {data: docs}));
     }
   });
 });
