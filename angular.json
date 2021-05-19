@@ -3,6 +3,7 @@
   "cli": {
     "defaultCollection": "@nrwl/angular"
   },
+  "defaultProject": "fnbc",
   "schematics": {
     "@nrwl/angular": {
       "application": {
