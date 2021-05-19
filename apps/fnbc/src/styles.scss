@@ -1,1 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
+@import "reboot";
+@import "devices";
+@import "mixins";
+@import "fonts";
+@import "variables";
+@import "buttons";
+
+body{
+  font-family: $font-family-base;
+  font-size: $font-base-size;
+}

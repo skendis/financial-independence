@@ -47,8 +47,13 @@
             "polyfills": "apps/client/src/polyfills.ts",
             "tsConfig": "apps/client/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/client/src/favicon.ico", "apps/client/src/assets"],
-            "styles": ["apps/client/src/styles.scss"],
+            "assets": [
+              "apps/client/src/favicon.ico",
+              "apps/client/src/assets"
+            ],
+            "styles": [
+              "apps/client/src/styles.scss"
+            ],
             "scripts": []
           },
           "configurations": {
@@ -109,7 +114,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/client"],
+          "outputs": [
+            "coverage/apps/client"
+          ],
           "options": {
             "jestConfig": "apps/client/jest.config.js",
             "passWithNoTests": true
@@ -138,7 +145,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/client-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/client-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -158,8 +167,18 @@
             "polyfills": "apps/fnbc/src/polyfills.ts",
             "tsConfig": "apps/fnbc/tsconfig.app.json",
             "aot": true,
-            "assets": ["apps/fnbc/src/favicon.ico", "apps/fnbc/src/assets"],
-            "styles": ["apps/fnbc/src/styles.scss"],
+            "assets": [
+              "apps/fnbc/src/favicon.ico",
+              "apps/fnbc/src/assets"
+            ],
+            "styles": [
+              "apps/fnbc/src/styles.scss"
+            ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "apps/fnbc/src/styles"
+              ]
+            },
             "scripts": []
           },
           "configurations": {
@@ -220,7 +239,9 @@
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/fnbc"],
+          "outputs": [
+            "coverage/apps/fnbc"
+          ],
           "options": {
             "jestConfig": "apps/fnbc/jest.config.js",
             "passWithNoTests": true
@@ -249,7 +270,9 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/fnbc-e2e/**/*.{js,ts}"]
+            "lintFilePatterns": [
+              "apps/fnbc-e2e/**/*.{js,ts}"
+            ]
           }
         }
       }
@@ -261,12 +284,14 @@
       "architect": {
         "build": {
           "builder": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/fnbc-server",
             "main": "apps/fnbc-server/src/main.ts",
             "tsConfig": "apps/fnbc-server/tsconfig.app.json",
-            "exteranlDependencies":"none",
+            "exteranlDependencies": "none",
             "generatePackageJson": true
           },
           "configurations": {
@@ -292,12 +317,16 @@
         "lint": {
           "builder": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/fnbc-server/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/fnbc-server/**/*.ts"
+            ]
           }
         },
         "test": {
           "builder": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/fnbc-server"],
+          "outputs": [
+            "coverage/apps/fnbc-server"
+          ],
           "options": {
             "jestConfig": "apps/fnbc-server/jest.config.js",
             "passWithNoTests": true
