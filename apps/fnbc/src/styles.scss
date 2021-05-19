@@ -2,7 +2,7 @@
 
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
-@import "reboot";
+@import "~bootstrap";
 @import "devices";
 @import "mixins";
 @import "fonts";
@@ -12,4 +12,9 @@
 body{
   font-family: $font-family-base;
   font-size: $font-base-size;
+  height: 100vh;
+  width: 100vw;
 }
+
+/* Importing Bootstrap SCSS file. */
+@import '~bootstrap/scss/bootstrap';
