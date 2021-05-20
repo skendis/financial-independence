@@ -25,9 +25,10 @@ jobs:
 
     - name: npm install, build, and test
       run: |
+        npm config set CYPRESS_INSTALL_BINARY=0
         npm install
-        npm run build --if-present
-        npm run test --if-present
+        npm run build -- fnbc --prod
+        npm run build -- fnbc-server --prod
 
     - name: Run Azure webapp deploy action using publish profile credentials
       uses: azure/webapps-deploy@v2
