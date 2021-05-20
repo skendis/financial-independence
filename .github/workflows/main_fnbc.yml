@@ -23,9 +23,10 @@ jobs:
 
     - name: npm install, build, and test
       run: |
+        npm config set CYPRESS_INSTALL_BINARY=0
         npm install
-        npm run build --if-present
-        npm run test --if-present
+        npm run build -- fnbc --prod
+        npm run build -- fnbc-server --prod
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
