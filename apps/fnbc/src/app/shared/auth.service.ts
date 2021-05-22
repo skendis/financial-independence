@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { environment } from '../../environments/environment.prod';
 
 @Injectable({
@@ -12,6 +12,7 @@ export class AuthService {
   }
 
   authUrl = `${environment.api}/auth`;
+  private loggedIn = new BehaviorSubject(false);
 
   login(user, password): Observable<any> {
     const body = {
@@ -35,5 +36,17 @@ export class AuthService {
     return this.http.post(`${this.authUrl}/register`, body, { headers });
   }
 
+  disconenct() {
+    window.location.href = `/${this.authUrl}/logout`;
+    this.setLoggedInState(false);
+  }
+
+  setLoggedInState(value) {
+    this.loggedIn.next(value);
+  }
+
+  getLoggedInState() {
+    return this.loggedIn;
+  }
 
 }

@@ -8,13 +8,14 @@
 @import "fonts";
 @import "variables";
 @import "buttons";
+@import "soft-ui-dashboard";
+@import "styles/nucleo-icons.css";
+@import "styles/nucleo-svg.css";
 
-body{
-  font-family: $font-family-base;
-  font-size: $font-base-size;
-  height: 100vh;
-  width: 100vw;
+html,body{
+  font-family: $font-base-size!important;
 }
 
-/* Importing Bootstrap SCSS file. */
-@import '~bootstrap/scss/bootstrap';
+input,label{
+  font-family: $font-base-size!important;
+}

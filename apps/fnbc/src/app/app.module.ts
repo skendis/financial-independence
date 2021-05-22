@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { RouterModule, Routes } from '@angular/router';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { HttpClientModule } from '@angular/common/http';
+import { MenuComponent } from './components/menu/menu.component';
+import { AuthGuard } from './shared/auth.guard';
 
 const routes: Routes = [
   {
@@ -13,11 +15,13 @@ const routes: Routes = [
   },
   {
     path: 'incomes',
-    loadChildren: () => import('./incomes/incomes.module').then(m => m.IncomesModule)
+    loadChildren: () => import('./incomes/incomes.module').then(m => m.IncomesModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'goals',
-    loadChildren: () => import('./goals/goals.module').then(m => m.GoalsModule)
+    loadChildren: () => import('./goals/goals.module').then(m => m.GoalsModule),
+    canActivate: [AuthGuard]
   },
   {
     path: 'onboarding',
@@ -33,14 +37,14 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, MenuComponent],
   imports: [
     BrowserModule,
     RouterModule.forRoot(routes, { initialNavigation: 'enabled' }),
     NgbModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule {

@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core';
 import { AuthService } from '../shared/auth.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'financial-independence-auth',
@@ -9,23 +10,35 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
   encapsulation: ViewEncapsulation.None
 })
 export class AuthComponent implements OnInit {
-
-
-  constructor(private authService: AuthService, private fb: FormBuilder) {
+  constructor(private authService: AuthService, private fb: FormBuilder, private router: Router) {
   }
 
+  // optional remember me feature - closed by default until implemented
+  allowRememberMe = false;
+  loginError: boolean = null;
   form: FormGroup = this.fb.group({
     userName: ['', Validators.required],
     password: ['', Validators.required]
   });
 
-  handleSubmit(isRegistered:boolean) {
-    if(isRegistered){
-      this.authService.login(this.userName, this.password).subscribe(data => console.log(data));
-    } else{
-      this.authService.register(this.userName, this.password).subscribe(data => console.log(data));
+  handleSubmit(isRegistered: boolean) {
+    this.loginError = false;
+    if (!this.form.valid) return;
+    if (isRegistered) {
+      this.authService.login(this.userName, this.password).subscribe(data => {
+        this.authService.setLoggedInState(true);
+        this.router.navigate(['goals']);
+      }, (error => this.handleError(error)));
+    } else {
+      this.authService.register(this.userName, this.password).subscribe(data => {
+        this.authService.setLoggedInState(true);
+        this.router.navigate(['goals']);
+      }, error => this.handleError(error));
     }
+  }
 
+  handleError(error) {
+    this.loginError = !!(error.status === 401 || 404 || 400);
   }
 
 

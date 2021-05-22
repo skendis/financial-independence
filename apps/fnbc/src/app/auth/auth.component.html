@@ -1,24 +1,46 @@
-<main class='form-signin'>
-  <form [formGroup]='form'>
-    <div class='text-center'>
-      <img class='mb-4' src='assets/icons/money.svg' alt='' width='72' height='57'>
-      <h1 class='h3 mb-3 fw-normal'>נא להתחבר</h1>
+<section>
+  <div class="page-header section-height-75">
+    <div class="container">
+      <div class="row">
+        <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
+          <div class="card card-plain mt-8">
+            <div class="card-header pb-0 text-left bg-transparent">
+              <h3 class="font-weight-bolder text-info text-gradient">ברוך שובך</h3>
+              <p class="mb-0">הכניסו כתובת מייל, סיסמה והתחברו</p>
+            </div>
+            <div class="card-body">
+              <form role="form text-left" [formGroup]='form'>
+                <label>כתובת מייל</label>
+                <div class="mb-3">
+                  <input type="email" class="form-control" placeholder="name@example.com" aria-label="Email" aria-describedby="email-addon" formControlName='userName'>
+                </div>
+                <label>סיסמה</label>
+                <div class="mb-3">
+                  <input type="password" class="form-control" placeholder="ab****45" aria-label="Password" aria-describedby="password-addon" formControlName='password'>
+                </div>
+                <div class="form-check form-switch" *ngIf='allowRememberMe'>
+                  <input class="form-check-input" type="checkbox" id="rememberMe" checked="">
+                  <label class="form-check-label" for="rememberMe">זכור אותי</label>
+                </div>
+                <div *ngIf='loginError'>
+                  <span>אופס... נראה שטעיתם במייל או הסיסמה נסו שוב</span>
+                </div>
+                <div class="text-center">
+                  <button type="button" class="btn bg-gradient-info w-100 mt-4 mb-0" (click)='handleSubmit(true)'>התחבר</button>
+                </div>
+              </form>
+            </div>
+            <div class="card-footer text-center pt-0 px-lg-2 px-1">
+              <p class="mb-4 text-sm mx-auto">
+                עדיין אין לך חשבון?
+                <a [routerLink]="['/onboarding']" class="text-info text-gradient font-weight-bold">הירשם</a>
+              </p>
+            </div>
+          </div>
+        </div>
+<!-- -->
+      </div>
     </div>
+  </div>
+</section>
 
-    <div class='form-floating'>
-      <input type='email' class='form-control' id='floatingInput' placeholder='name@example.com'
-             formControlName='userName'>
-      <label for='floatingInput'>כתובת מייל</label>
-    </div>
-    <div class='form-floating'>
-      <input type='password' class='form-control' id='floatingPassword' placeholder='Password'
-             formControlName='password'>
-      <label for='floatingPassword'>סיסמה</label>
-    </div>
-    <div class='text-center'>
-      <button class='w-100 btn btn-lg btn-primary' type='button' (click)='handleSubmit(true)'>התחבר</button>
-      <button class='btn btn-link' (click)='handleSubmit(false)'>הירשם</button>
-    </div>
-
-  </form>
-</main>
