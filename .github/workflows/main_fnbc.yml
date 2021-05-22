@@ -27,6 +27,9 @@ jobs:
         npm install
         npm run build -- fnbc --prod
         npm run build -- fnbc-server --prod
+        cd ./dist/apps/fnbc-server
+        npm i
+        npm i tslib
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v2
