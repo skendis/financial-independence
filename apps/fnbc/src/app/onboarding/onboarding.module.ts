@@ -14,4 +14,5 @@ import { OnboardingComponent } from './onboarding.component';
     OnboardingRoutingModule
   ]
 })
-export class OnboardingModule { }
+export class OnboardingModule {
+}
