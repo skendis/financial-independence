@@ -43,9 +43,14 @@ export class AuthService {
 
   setLoggedInState(value) {
     this.loggedIn.next(value);
+    localStorage.setItem('loggedIn', value);
   }
 
   getLoggedInState() {
+    const status = localStorage.getItem('loggedIn');
+    if (status === 'true') {
+      this.loggedIn.next(true);
+    }
     return this.loggedIn;
   }
 
